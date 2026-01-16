@@ -520,7 +520,9 @@ GameObject:
   - component: {fileID: 1636508303}
   - component: {fileID: 1636508302}
   - component: {fileID: 1636508301}
-  - component: {fileID: 1636508300}
+  - component: {fileID: 1636508307}
+  - component: {fileID: 1636508306}
+  - component: {fileID: 1636508305}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -528,46 +530,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1636508300
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1636508299}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3fb1abffff4276d4187974f40a98571f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  maxSpeed: 8.14
-  jumpForce: 912
-  maxFallSpeed: 12
-  jumpcut: 0.5
-  hasDashed: 0
-  dashPower: 0.88
-  wallSlideSpeed: 1.55
-  wallJumpXForce: 387.8
-  wallJumpMult: 0.5
-  detectWalls: 0
-  playerState: 0
-  jumpRec: 0
-  dashActRec: 0
-  floorLayer:
-    serializedVersion: 2
-    m_Bits: 128
-  wallLayer:
-    serializedVersion: 2
-    m_Bits: 64
-  boxSize: {x: 0.7, y: 0.1}
-  wallBoxSize: {x: 0.1, y: 0.7}
-  wallBoxOrigin: {x: 0, y: 0, z: 0}
-  downCastDistance: 0.38
-  rightCastDistance: 0.38
-  leftCastDistance: 0.38
-  inputBuffer: 0.35
-  wallBuffer: 0.37
-  dashDuration: 0.02
 --- !u!50 &1636508301
 Rigidbody2D:
   serializedVersion: 4
@@ -707,6 +669,72 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1636508305
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1636508299}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d8643019a31a6654cbcf688c60bbea3b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  jumpRec: 0
+  dashRec: 0
+  attackRec: 0
+  jumpHeld: 0
+  inputBuffer: 0.27
+--- !u!114 &1636508306
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1636508299}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f79db1963ffbba64fbdac41f54edfb97, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  floorLayer:
+    serializedVersion: 2
+    m_Bits: 128
+  wallLayer:
+    serializedVersion: 2
+    m_Bits: 64
+  boxSize: {x: 0.7, y: 0.12}
+  wallBoxSize: {x: 0.08, y: 0.68}
+  wallBoxOrigin: {x: 0, y: 0, z: 0}
+  castDistance: 0.35
+  rightCastDistance: 0.37
+  leftCastDistance: 0.37
+  wallBuffer: 0
+  DetectWalls: 0
+--- !u!114 &1636508307
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1636508299}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3fb1abffff4276d4187974f40a98571f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxSpeed: 15
+  jumpForce: 556
+  maxFallSpeed: 50
+  jumpcut: 0.7
+  hasDashed: 0
+  dashPower: 0
+  dashDuration: 0
+  wallSlideSpeed: 1.83
+  wallJumpXForce: 303.7
+  wallJumpMult: 1
+  detectWalls: 0
 --- !u!1 &1774309065
 GameObject:
   m_ObjectHideFlags: 0
