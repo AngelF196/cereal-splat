@@ -10,45 +10,50 @@ public class PlayerMove : MonoBehaviour
         grounded, jumping, midair, dashing, walled
     }
 
-    [Header("Movement Variables")]
+    [Header("Ground Variables")]
+    [SerializeField] private float accelRate;
+    [SerializeField] private float decelRate;
     [SerializeField] private float maxSpeed;
+    private float acceleration;
+
+    [Header("Air Variables")]
     [SerializeField] private float jumpForce;
     [SerializeField] private float maxFallSpeed;
     [SerializeField] private float jumpcut;
+
+    [Header("Dash Variables")]
     [SerializeField] private bool hasDashed;
     [SerializeField] private float dashPower;
-    [SerializeField] private float dashDuration;
 
     [Header("Wall Variables")]
     [SerializeField] private float wallSlideSpeed;
     [SerializeField] private float wallJumpXForce;
     [SerializeField] private float wallJumpMult;
-    [SerializeField] private bool detectWalls;
-    private float wallTimer;
-
 
     // References
     private Rigidbody2D _rb;
     PlayerEnvironment _collision;
     PlayerInput _inputs;
+    PlayerAnimation _animation;
 
     //misc shit
     private state playerState;
     private state prevState;
     private float storedSpeed;
-    public state currentState => playerState;
-    private bool facingLeft;
 
-    private float dashTimer;
-    private float startingGravity;
-    private float dashDurationTimer;
+    //Shit for other scripts
+    public state currentState => playerState;
+    public float baseMaxSpeed => maxSpeed;
+    public bool isFacingLeft => facingLeft;
+
+    private bool facingLeft; //Don't remove
 
     void Start()
     {
         _rb = GetComponent<Rigidbody2D>();
         _inputs = GetComponent<PlayerInput>();
         _collision = GetComponent<PlayerEnvironment>();
-        startingGravity = _rb.gravityScale;
+        _animation = GetComponentInChildren<PlayerAnimation>();
     }
 
     void Update()
@@ -83,11 +88,6 @@ public class PlayerMove : MonoBehaviour
                         UpdateState(state.midair);
                     }
                 }
-                if (_inputs.saysDash)
-                {
-                    UpdateState(state.dashing);
-                    _inputs.Consume(PlayerInput.Action.dash);
-                }
                 break;
             case state.jumping:
                 MovementCalc();
@@ -96,15 +96,11 @@ public class PlayerMove : MonoBehaviour
                 {
                     _rb.velocity = new Vector2(_rb.velocity.x, jumpcut * _rb.velocity.y);
                 }
-                if (_inputs.saysDash)
-                {
-                    UpdateState(state.dashing);
-                }
                 if (_rb.velocity.y <= 0f)
                 {
                     UpdateState(state.midair);
                 }
-                if (_collision.FloorDetect())
+                if (_collision.FloorDetect() && _rb.velocity.y <= 0f)
                 {
                     UpdateState(state.grounded);
                 }
@@ -121,24 +117,6 @@ public class PlayerMove : MonoBehaviour
                     _rb.velocity = new Vector2(_rb.velocity.x, -maxFallSpeed);
                 }
                 if (_collision.FloorDetect())
-                {
-                    UpdateState(state.grounded);
-                }
-                if (_inputs.saysDash)
-                {
-                    UpdateState(state.dashing);
-                }
-                if (_collision.WallDirectionDetect() != 0 && _collision.WallDirectionDetect() != 3)
-                {
-                    UpdateState(state.walled);
-                }
-                break;
-            case state.dashing:
-                MovementCalc();
-
-                //FUCK
-
-                if (_collision.FloorDetect() && _rb.velocity.y <= 0)
                 {
                     UpdateState(state.grounded);
                 }
@@ -175,6 +153,7 @@ public class PlayerMove : MonoBehaviour
         Debug.Log(newstate.ToString() + " state");
         prevState = playerState;
         playerState = newstate;
+        _animation.UpdateAnimationState(newstate, prevState);
         if (doAction)
         {
             StateAction(newstate);
@@ -200,10 +179,6 @@ public class PlayerMove : MonoBehaviour
                 _inputs.Consume(PlayerInput.Action.jump);
                 break;
             case state.grounded:
-                hasDashed = false;
-                break;
-            case state.dashing:
-                Dash();
                 break;
             case state.walled:
                 if (prevState != state.walled)
@@ -213,8 +188,11 @@ public class PlayerMove : MonoBehaviour
                 _collision.DetectWalls = true;
                 break;
         }
-        if (prevState == state.walled) _collision.DetectWalls = false;
-        if (prevState == state.dashing) _rb.gravityScale = startingGravity;
+        if (prevState == state.walled)
+        {
+            _collision.DetectWalls = false;
+        }
+        
     }
     private void DirectionFacing()
     {
