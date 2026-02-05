@@ -34,7 +34,7 @@ public class PlayerMove : MonoBehaviour
     private Rigidbody2D _rb;
     PlayerEnvironment _collision;
     PlayerInput _inputs;
-    PlayerAnimation _animation;
+    //PlayerAnimation _animation;
 
     //misc shit
     private state playerState;
@@ -53,7 +53,7 @@ public class PlayerMove : MonoBehaviour
         _rb = GetComponent<Rigidbody2D>();
         _inputs = GetComponent<PlayerInput>();
         _collision = GetComponent<PlayerEnvironment>();
-        _animation = GetComponentInChildren<PlayerAnimation>();
+        //_animation = GetComponentInChildren<PlayerAnimation>();
     }
 
     void Update()
@@ -88,6 +88,10 @@ public class PlayerMove : MonoBehaviour
                         UpdateState(state.midair);
                     }
                 }
+                if (_inputs.saysDash)
+                {
+                    UpdateState(state.dashing);
+                }
                 break;
             case state.jumping:
                 MovementCalc();
@@ -95,6 +99,10 @@ public class PlayerMove : MonoBehaviour
                 if (_inputs.jumpCutRec)
                 {
                     _rb.velocity = new Vector2(_rb.velocity.x, jumpcut * _rb.velocity.y);
+                }
+                if (_inputs.saysDash)
+                {
+                    UpdateState(state.dashing);
                 }
                 if (_rb.velocity.y <= 0f)
                 {
@@ -120,6 +128,23 @@ public class PlayerMove : MonoBehaviour
                 {
                     UpdateState(state.grounded);
                 }
+                if (_inputs.saysDash)
+                {
+                    UpdateState(state.dashing);
+                }
+                if (_collision.WallDirectionDetect() != 0 && _collision.WallDirectionDetect() != 3)
+                {
+                    UpdateState(state.walled);
+                }
+                break;
+            case state.dashing:
+
+                //FUCK
+
+                if (_collision.FloorDetect() && _rb.velocity.y <= 0)
+                {
+                    UpdateState(state.grounded);
+                }
                 if (_collision.WallDirectionDetect() != 0 && _collision.WallDirectionDetect() != 3)
                 {
                     UpdateState(state.walled);
@@ -128,6 +153,10 @@ public class PlayerMove : MonoBehaviour
             case state.walled:
                 WallMovement();
 
+                if (_inputs.saysDash)
+                {
+                    UpdateState(state.dashing);
+                }
                 if (_rb.velocity.y <= -maxFallSpeed)
                 {
                     _rb.velocity = new Vector2(_rb.velocity.x, -maxFallSpeed);
@@ -147,13 +176,13 @@ public class PlayerMove : MonoBehaviour
                 break;
         }
     }
-    
+
     private void UpdateState(state newstate, bool doAction = true)
     {
         Debug.Log(newstate.ToString() + " state");
         prevState = playerState;
         playerState = newstate;
-        _animation.UpdateAnimationState(newstate, prevState);
+        //_animation.UpdateAnimationState(newstate, prevState);
         if (doAction)
         {
             StateAction(newstate);
@@ -178,7 +207,13 @@ public class PlayerMove : MonoBehaviour
                 }
                 _inputs.Consume(PlayerInput.Action.jump);
                 break;
+            case state.dashing:
+                Dash();
+                _inputs.Consume(PlayerInput.Action.dash);
+
+                break;
             case state.grounded:
+                hasDashed = false;
                 break;
             case state.walled:
                 if (prevState != state.walled)
@@ -192,7 +227,7 @@ public class PlayerMove : MonoBehaviour
         {
             _collision.DetectWalls = false;
         }
-        
+
     }
     private void DirectionFacing()
     {
@@ -207,7 +242,7 @@ public class PlayerMove : MonoBehaviour
     }
     private void MovementCalc()
     {
-        if (_inputs.RawDirections != Vector2.zero)
+        if (_inputs.RawDirections.x != 0)
         {
             float targetSpeed = _inputs.RawDirections.x * maxSpeed; //reflects left/right input
             if (playerState == state.grounded)
@@ -233,7 +268,14 @@ public class PlayerMove : MonoBehaviour
     }
     private void Dash()
     {
-        hasDashed = true;
-        _rb.velocity = dashPower * _inputs.RawDirections;
+        if (hasDashed)
+        {
+            return;
+        }
+        else 
+        {
+            hasDashed = true;
+            _rb.velocity = dashPower * _inputs.RawDirections;
+        }
     }
 }
