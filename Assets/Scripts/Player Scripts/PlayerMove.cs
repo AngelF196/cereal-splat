@@ -14,6 +14,7 @@ public class PlayerMove : MonoBehaviour
     [SerializeField] private float accelRate;
     [SerializeField] private float decelRate;
     [SerializeField] private float maxSpeed;
+    [SerializeField] private float stoppingSpeed;
     private float acceleration;
 
     [Header("Air Variables")]
@@ -245,14 +246,18 @@ public class PlayerMove : MonoBehaviour
         if (_inputs.RawDirections.x != 0)
         {
             float targetSpeed = _inputs.RawDirections.x * maxSpeed; //reflects left/right input
-            if (playerState == state.grounded)
+            if (playerState == state.grounded) // Ground movement
             {
                 _rb.velocity = new Vector2(targetSpeed, _rb.velocity.y);
             }
-            else
+            else // Air movement
             {
-                _rb.velocity = new Vector2(Mathf.Clamp(_rb.velocity.x + targetSpeed * 0.2f, -Mathf.Abs(targetSpeed), Math.Abs(targetSpeed)), _rb.velocity.y);
+                _rb.velocity = new Vector2(Mathf.Clamp(_rb.velocity.x + (targetSpeed * 0.1f), -Mathf.Abs(targetSpeed), Math.Abs(targetSpeed)), _rb.velocity.y);
             }
+        }
+        else if (playerState == state.grounded)
+        {
+            _rb.velocity = Vector3.Lerp(_rb.velocity, Vector3.zero, Time.deltaTime * stoppingSpeed);
         }
     }
     private void WallMovement()
