@@ -177,9 +177,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   accelRate: 0
   decelRate: 0
-  maxSpeed: 13.9
+  maxSpeed: 12.8
   stoppingSpeed: 5
-  jumpForce: 556
+  jumpForce: 1054.4
   maxFallSpeed: 50
   jumpcut: 0.7
   hasDashed: 0
