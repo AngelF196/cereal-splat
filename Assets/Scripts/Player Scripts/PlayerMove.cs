@@ -7,7 +7,7 @@ public class PlayerMove : MonoBehaviour
 {
     public enum state
     {
-        grounded, jumping, midair, dashing, walled
+        grounded, jumping, midair, dashing, walled, hitstun
     }
 
     [Header("Ground Variables")]

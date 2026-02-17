@@ -32,6 +32,22 @@ public class PlayerInput : MonoBehaviour
         attack,
         dash
     }
+
+    //PlayerAttacking Access
+    public AttackDirections attackDir;
+    public enum AttackDirections
+    {
+        Neutral,
+        Left,
+        Right,
+        Up,
+        Down,
+        UpLeft,
+        UpRight,
+        DownLeft,
+        DownRight
+    }
+
     void Update()
     {
         InputGather();
@@ -73,9 +89,34 @@ public class PlayerInput : MonoBehaviour
         playerDirections = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
         rawPlayerDirections = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
 
+        attackDir = GetDirection(rawPlayerDirections);
+
         jumpRec = Input.GetKeyDown(KeyCode.Space);
         jumpHeld = Input.GetKey(KeyCode.Space);
         dashRec = Input.GetKeyDown(KeyCode.LeftShift);
         attackActRec = Input.GetKeyDown(KeyCode.Z);
+    }
+
+    AttackDirections GetDirection(Vector2 axis)
+    {
+        if (axis == Vector2.zero)
+        {
+            return AttackDirections.Neutral;
+        }
+
+        int x = Mathf.RoundToInt(axis.x);
+        int y = Mathf.RoundToInt(axis.y);
+
+        if (x == -1 && y == 0) return AttackDirections.Left;
+        if (x == 1 && y == 0) return AttackDirections.Right;
+        if (x == 0 && y == 1) return AttackDirections.Up;
+        if (x == 0 && y == -1) return AttackDirections.Down;
+
+        if (x == -1 && y == 1) return AttackDirections.UpLeft;
+        if (x == 1 && y == 1) return AttackDirections.UpRight;
+        if (x == -1 && y == -1) return AttackDirections.DownLeft;
+        if (x == 1 && y == -1) return AttackDirections.DownRight;
+
+        return AttackDirections.Neutral;
     }
 }
