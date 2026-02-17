@@ -5,21 +5,21 @@ using UnityEngine;
 public class PlayerAttacking : MonoBehaviour
 {
     PlayerInput _inputs;
-    PlayerMove _move;
+    PlayerMove _movement;
 
     void Start()
     {
         _inputs = GetComponent<PlayerInput>();
-        _move = GetComponent<PlayerMove>();
+        _movement = GetComponent<PlayerMove>();
     }
 
     private void Update()
     {
         if (_inputs.saysAttack) 
         { 
-            if(_move.currentState == PlayerMove.state.grounded) { GroundAttacks(); }
-            else if (_move.currentState == PlayerMove.state.midair || _move.currentState == PlayerMove.state.jumping) { AirAttacks(); }
-            else if (_move.currentState == PlayerMove.state.dashing) { DashAttack(); }
+            if(_movement.currentState == PlayerMove.state.grounded) { GroundAttacks(); }
+            else if (_movement.currentState == PlayerMove.state.midair || _movement.currentState == PlayerMove.state.jumping) { AirAttacks(); }
+            else if (_movement.currentState == PlayerMove.state.dashing) { DashAttack(); }
         }
     }
 

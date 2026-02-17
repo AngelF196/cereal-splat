@@ -283,4 +283,23 @@ public class PlayerMove : MonoBehaviour
             _rb.velocity = dashPower * _inputs.RawDirections;
         }
     }
+
+    public void HitStunToggle()
+    {
+        if (playerState == state.hitstun)
+        {
+            if (_collision.FloorDetect())
+            {
+                UpdateState(state.grounded);
+            }
+            else
+            {
+                UpdateState(state.midair);
+            }
+        }
+        else
+        {
+            UpdateState(state.hitstun);
+        }
+    }
 }
