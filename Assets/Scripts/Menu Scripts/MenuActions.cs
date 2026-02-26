@@ -6,9 +6,8 @@ using UnityEngine.SceneManagement;
 
 public class MenuActions : MonoBehaviour
 {
-
     [SerializeField] GameObject controlsScreen;
-    [SerializeField] TextMeshProUGUI playerCount; 
+    [SerializeField] TextMeshProUGUI playerCount;
     public void IncPlayers() 
     {
         if (GameManager.Instance.numPlayers < 4)
@@ -47,5 +46,15 @@ public class MenuActions : MonoBehaviour
     public void LoadGame()
     {
         SceneManager.LoadScene(1);
+    }
+
+    public void LoadResults()
+    {
+        SceneManager.LoadScene(2);
+    }
+
+    public void LoadTitle() 
+    {
+        SceneManager.LoadScene(0);
     }
 }
