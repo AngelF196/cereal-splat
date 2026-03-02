@@ -3,15 +3,26 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Playables;
 
+[System.Serializable]   // Makes it show up in the Inspector
+public struct PlayerControls
+{
+    public string horizontalAxis;  // e.g., "Horizontal_P1"
+    public string verticalAxis;    // e.g., "Vertical_P1"
+    public KeyCode jumpKey;        // e.g., KeyCode.Space
+    public KeyCode attackKey;      // e.g., KeyCode.Z
+    public KeyCode dashKey;        // e.g., KeyCode.LeftShift
+}
+
 public class PlayerInput : MonoBehaviour
 {
     [Header("Player Input")]
+    public PlayerControls controls;
     private Vector2 playerDirections;
     private Vector2 rawPlayerDirections;
-    [SerializeField] private bool jumpRec; //hide
-    [SerializeField] private bool attackActRec; //hide
-    [SerializeField] private bool jumpHeld;
-    [SerializeField] private bool dashRec;
+    private bool jumpRec;
+    private bool attackActRec;
+    private bool jumpHeld;
+    private bool dashRec;
 
     [Header("Input Buffering")]
     [SerializeField] private float inputBuffer;
@@ -75,26 +86,26 @@ public class PlayerInput : MonoBehaviour
         {
             case Action.jump:
                 jumpTimer = 0f;
-            break;
+                break;
             case Action.dash:
                 dashTimer = 0f;
-            break;
+                break;
             case Action.attack:
                 attackTimer = 0f;
-            break;
+                break;
         }
     }
     private void InputGather()
     {
-        playerDirections = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
-        rawPlayerDirections = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
+        playerDirections = new Vector2(Input.GetAxis(controls.horizontalAxis), Input.GetAxis(controls.verticalAxis));
+        rawPlayerDirections = new Vector2(Input.GetAxisRaw(controls.horizontalAxis), Input.GetAxisRaw(controls.verticalAxis));
 
         attackDir = GetDirection(rawPlayerDirections);
 
-        jumpRec = Input.GetKeyDown(KeyCode.Space);
-        jumpHeld = Input.GetKey(KeyCode.Space);
-        dashRec = Input.GetKeyDown(KeyCode.LeftShift);
-        attackActRec = Input.GetKeyDown(KeyCode.Z);
+        jumpRec = Input.GetKeyDown(controls.jumpKey);
+        jumpHeld = Input.GetKey(controls.jumpKey);
+        dashRec = Input.GetKeyDown(controls.dashKey);
+        attackActRec = Input.GetKeyDown(controls.attackKey);
     }
 
     AttackDirections GetDirection(Vector2 axis)

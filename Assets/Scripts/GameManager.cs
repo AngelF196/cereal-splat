@@ -9,6 +9,7 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance { get; private set; }
     public int numPlayers = 1;
     [SerializeField] GameObject playerPrefab;
+    public PlayerControls[] allPlayerControls;
     private List<Vector3> playerSpawns = new List<Vector3>();
 
     void OnEnable()
@@ -46,7 +47,9 @@ public class GameManager : MonoBehaviour
         {
             for (int i = 0; i < numPlayers; i++) 
             {
-                Instantiate(playerPrefab, position: playerSpawns[i], quaternion.identity);
+                GameObject player = Instantiate(playerPrefab, position: playerSpawns[i], quaternion.identity);
+                player.GetComponent<PlayerStats>().Initialize(i);
+
             }
         }
     }
