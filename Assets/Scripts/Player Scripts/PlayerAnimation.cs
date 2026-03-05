@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerAnimation : MonoBehaviour
 {
-    private PlayerMove _baseMovement;
+    private PlayerMove _movement;
     private Animator _animator;
     private Rigidbody2D _rb;
     private SpriteRenderer _sr;
@@ -16,14 +16,13 @@ public class PlayerAnimation : MonoBehaviour
     {
         _rb = GetComponentInParent<Rigidbody2D>();
         _sr = GetComponent<SpriteRenderer>();
-        _baseMovement = GetComponentInParent<PlayerMove>();
-        _animator = GetComponentInParent<Animator>();
+        _movement = GetComponentInParent<PlayerMove>();
+        _animator = GetComponent<Animator>();
     }
 
-    // Update is called once per frame
     void Update()
     {
-        if (_baseMovement.isFacingLeft)
+        if (_movement.isFacingLeft)
         {
             _sr.flipX = true;
         }
@@ -32,32 +31,12 @@ public class PlayerAnimation : MonoBehaviour
             _sr.flipX = false;
         }
 
-        if (grounded)
-        {
-            _animator.SetBool("Grounded", true);
 
-            if (_rb.velocity.x != 0f)
-            {
-                _animator.SetBool("Running", true);
-            }
-            else
-            {
-                _animator.SetBool("Running", false);
-            }
 
-            //idle
-            //walking
-            //running
-        }
     }
         public void FlipAnimation()
         {
             _animator.SetTrigger("Flip");
-        }
-
-        public void WallClimbAnimation()
-        {
-            _animator.SetTrigger("Wall_Climb");
         }
 
         public void UpdateAnimationState(PlayerMove.state state, PlayerMove.state prevState)
@@ -73,35 +52,21 @@ public class PlayerAnimation : MonoBehaviour
                     walled = false;
                     grounded = true;
                     _animator.SetBool("Grounded", false);
-                    _animator.SetBool("Jumping", false);
-                    _animator.SetBool("Falling", false);
-                    _animator.SetBool("Wall_Slide", false);
                     break;
                 case (PlayerMove.state.jumping):
                     walled = false;
                     grounded = false;
-                    _animator.SetBool("Jumping", true);
                     _animator.SetBool("Grounded", false);
-                    _animator.SetBool("Falling", false);
-                    _animator.SetBool("Running", false);
-                    _animator.SetBool("Wall_Slide", false);
                     break;
                 case (PlayerMove.state.midair):
                     walled = false;
                     grounded = false;
-                    _animator.SetBool("Falling", true);
-                    _animator.SetBool("Running", false);
                     _animator.SetBool("Grounded", false);
-                    _animator.SetBool("Jumping", false);
-                    _animator.SetBool("Wall_Slide", false);
+
                 break;
                 case (PlayerMove.state.walled):
                     grounded = false;
                     _animator.SetBool("Grounded", false);
-                    _animator.SetBool("Wall_Slide", true);
-                    _animator.SetBool("Falling", false);
-                    _animator.SetBool("Running", false);
-                    _animator.SetBool("Jumping", false);
                     break;
             }
         }

@@ -56,7 +56,8 @@ public class PlayerInput : MonoBehaviour
         UpLeft,
         UpRight,
         DownLeft,
-        DownRight
+        DownRight,
+        None
     }
 
     void Update()
@@ -110,6 +111,7 @@ public class PlayerInput : MonoBehaviour
 
     AttackDirections GetDirection(Vector2 axis)
     {
+        if (!saysAttack) return AttackDirections.None;
         if (axis == Vector2.zero)
         {
             return AttackDirections.Neutral;

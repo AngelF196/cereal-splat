@@ -35,7 +35,6 @@ public class PlayerMove : MonoBehaviour
     private Rigidbody2D _rb;
     PlayerEnvironment _collision;
     PlayerInput _inputs;
-    //PlayerAnimation _animation;
 
     //misc shit
     private state playerState;
@@ -54,7 +53,6 @@ public class PlayerMove : MonoBehaviour
         _rb = GetComponent<Rigidbody2D>();
         _inputs = GetComponent<PlayerInput>();
         _collision = GetComponent<PlayerEnvironment>();
-        //_animation = GetComponentInChildren<PlayerAnimation>();
     }
 
     void Update()
@@ -183,7 +181,6 @@ public class PlayerMove : MonoBehaviour
         Debug.Log(newstate.ToString() + " state");
         prevState = playerState;
         playerState = newstate;
-        //_animation.UpdateAnimationState(newstate, prevState);
         if (doAction)
         {
             StateAction(newstate);
