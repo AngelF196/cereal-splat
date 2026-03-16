@@ -173,6 +173,16 @@ public class PlayerMove : MonoBehaviour
                     UpdateState(state.jumping);
                 }
                 break;
+            case state.hitstun:
+                if (_rb.velocity.y <= 0f)
+                {
+                    UpdateState(state.midair);
+                }
+                if (_collision.FloorDetect())
+                {
+                    UpdateState(state.grounded);
+                }
+                break;
         }
     }
 
@@ -297,6 +307,7 @@ public class PlayerMove : MonoBehaviour
         else
         {
             UpdateState(state.hitstun);
+            //sound
         }
     }
 }

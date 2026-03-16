@@ -6,7 +6,7 @@ public class Knockback : MonoBehaviour
 {
     private Rigidbody2D _rb;
     private float weight = 1f;
-    private float percent = 0f;
+    public float percent = 0f;
     private PlayerMove _movement;
     private void Start()
     {

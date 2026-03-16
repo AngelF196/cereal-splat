@@ -9,10 +9,13 @@ public class HitboxSpawner : MonoBehaviour
     public GameObject lhitbox;
     public GameObject rhitbox;
     public GameObject Downtilt;
+    public GameObject DowntiltL;
     public GameObject SideTitleL;
     public GameObject SideTitleR;
     public GameObject Jab;
+    public GameObject JabL;
     public GameObject Uptilt;
+    public GameObject UptiltL;
 
     public GameObject hitcircle;
     public Transform hitboxSpawnPoint;
@@ -20,15 +23,36 @@ public class HitboxSpawner : MonoBehaviour
 
     public void EnableDowntilt()
     {
-        Downtilt.SetActive(true);
+        if (movement.isFacingLeft)
+        {
+            DowntiltL.SetActive(true);
+        }
+        else
+        {
+            Downtilt.SetActive(true);
+        }
     }
     public void EnableJab()
     {
-        Jab.SetActive(true);
+        if (movement.isFacingLeft)
+        {
+            JabL.SetActive(true);
+        }
+        else
+        {
+            Jab.SetActive(true);
+        }
     }
     public void EnableUptilt()
     {
-        Uptilt.SetActive(true);
+        if (movement.isFacingLeft)
+        {
+            UptiltL.SetActive(true);
+        }
+        else
+        {
+            Uptilt.SetActive(true);
+        }
     }
     public void EnableSideTilt()
     {
@@ -71,10 +95,13 @@ public class HitboxSpawner : MonoBehaviour
         lhitbox.SetActive(false);
         rhitbox.SetActive(false);
         Downtilt.SetActive(false);
+        DowntiltL.SetActive(false);
         SideTitleL.SetActive(false);
         SideTitleR.SetActive(false);
         Jab.SetActive(false);
+        JabL.SetActive(false);
         Uptilt.SetActive(false);
+        UptiltL.SetActive(false);
     }
     public void EnableHitcircle()
     {

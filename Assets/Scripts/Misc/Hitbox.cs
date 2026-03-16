@@ -14,14 +14,11 @@ public class Hitbox : MonoBehaviour
 
     void Start()
     {
-        Debug.Log("this ran");
         owner = transform.root.gameObject;
     }
 
     private void OnTriggerEnter2D(Collider2D col)
     {
-        Debug.Log("Hit: " + col.name + " root: " + col.transform.root.name);
-
 
         if (col.transform.root.gameObject == owner)
         {
