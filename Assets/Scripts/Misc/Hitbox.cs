@@ -10,16 +10,23 @@ public class Hitbox : MonoBehaviour
     [SerializeField] private Vector2 launchDirection = new Vector2(1, 1); // normalized later
     [SerializeField] private float hitstun = 0.3f;
 
-    private GameObject owner;
+    public GameObject owner;
 
     void Start()
     {
-        owner = transform.parent.gameObject;
+        Debug.Log("this ran");
+        owner = transform.root.gameObject;
     }
 
     private void OnTriggerEnter2D(Collider2D col)
     {
-        if (col.gameObject == owner) return;
+        Debug.Log("Hit: " + col.name + " root: " + col.transform.root.name);
+
+
+        if (col.transform.root.gameObject == owner)
+        {
+            return;
+        }
 
         if (col.TryGetComponent(out Knockback target))
         {
