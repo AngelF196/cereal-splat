@@ -1713,28 +1713,29 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   numPlayers: 1
+  winningIndex: 0
   playerPrefab: {fileID: 391883781227714621, guid: 1c874a66298359744afa807242f14bb7, type: 3}
   allPlayerControls:
   - horizontalAxis: Horizontal
     verticalAxis: Vertical
-    jumpKey: 32
-    attackKey: 101
-    dashKey: 113
-  - horizontalAxis: Horizontal
-    verticalAxis: Vertical
-    jumpKey: 111
-    attackKey: 112
-    dashKey: 105
-  - horizontalAxis: Horizontal
-    verticalAxis: Vertical
+    jumpKey: 120
+    attackKey: 99
+    dashKey: 0
+  - horizontalAxis: P2 Horizontal
+    verticalAxis: P2 Vertical
+    jumpKey: 257
+    attackKey: 258
+    dashKey: 0
+  - horizontalAxis: P3 Horizontal
+    verticalAxis: P3 Vertical
     jumpKey: 98
     attackKey: 110
-    dashKey: 109
-  - horizontalAxis: Horizontal
-    verticalAxis: Vertical
-    jumpKey: 106
-    attackKey: 107
-    dashKey: 108
+    dashKey: 0
+  - horizontalAxis: P4 Horizontal
+    verticalAxis: P4 Vertical
+    jumpKey: 46
+    attackKey: 47
+    dashKey: 0
 --- !u!1 &1658534020
 GameObject:
   m_ObjectHideFlags: 0
@@ -2156,6 +2157,7 @@ MonoBehaviour:
   playerCount: {fileID: 621194247}
   music: {fileID: 684240592}
   ready: {fileID: 1079574829}
+  results: {fileID: 0}
 --- !u!4 &1959537440
 Transform:
   m_ObjectHideFlags: 0

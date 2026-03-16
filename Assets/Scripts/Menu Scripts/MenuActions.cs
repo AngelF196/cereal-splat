@@ -7,9 +7,11 @@ using UnityEngine.SceneManagement;
 public class MenuActions : MonoBehaviour
 {
     [SerializeField] GameObject controlsScreen;
+    GameManager manager = GameManager.Instance;
     [SerializeField] TextMeshProUGUI playerCount;
     [SerializeField] private AudioSource music;
     [SerializeField] private AudioSource ready;
+    [SerializeField] private Results results;
     public void IncPlayers() 
     {
         if (GameManager.Instance.numPlayers < 4)
@@ -62,6 +64,11 @@ public class MenuActions : MonoBehaviour
     }
     public void LoadResults()
     {
+        int winner = results.GetWinner();
+        if (manager != null)
+        {
+            manager.winningIndex = winner;
+        }
         SceneManager.LoadScene(2);
     }
 

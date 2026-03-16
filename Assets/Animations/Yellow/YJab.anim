@@ -24,15 +24,15 @@ AnimationClip:
       value: {fileID: 21300000, guid: 07541df837f7dda48893dbda52a16643, type: 3}
     - time: 0.016666668
       value: {fileID: 21300000, guid: 5fa772a3ce366ea468ae0bc9daa0dc85, type: 3}
-    - time: 0.06666667
+    - time: 0.033333335
       value: {fileID: 21300000, guid: c02b09b048a69904d969415b2a877df8, type: 3}
-    - time: 0.1
+    - time: 0.05
       value: {fileID: 21300000, guid: 505b2cbd312dfc141897dc3ab3b0f281, type: 3}
-    - time: 0.13333334
+    - time: 0.06666667
       value: {fileID: 21300000, guid: 6309158aa9ea29849b4e0a788872f2be, type: 3}
-    - time: 0.16666667
+    - time: 0.083333336
       value: {fileID: 21300000, guid: 0430fe829a3181f4c8e2339038fd2439, type: 3}
-    - time: 0.2
+    - time: 0.1
       value: {fileID: 21300000, guid: 0430fe829a3181f4c8e2339038fd2439, type: 3}
     attribute: m_Sprite
     path: 
@@ -68,7 +68,7 @@ AnimationClip:
     m_AdditiveReferencePoseClip: {fileID: 0}
     m_AdditiveReferencePoseTime: 0
     m_StartTime: 0
-    m_StopTime: 0.21666667
+    m_StopTime: 0.11666667
     m_OrientationOffsetY: 0
     m_Level: 0
     m_CycleOffset: 0
@@ -87,4 +87,18 @@ AnimationClip:
   m_EulerEditorCurves: []
   m_HasGenericRootTransform: 0
   m_HasMotionFloatCurves: 0
-  m_Events: []
+  m_Events:
+  - time: 0.06666667
+    functionName: EnableJab
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 0.1
+    functionName: DisableHitboxes
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
