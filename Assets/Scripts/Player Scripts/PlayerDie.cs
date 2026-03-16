@@ -9,6 +9,7 @@ public class PlayerDie : MonoBehaviour
     private Transform Transform;
     private Knockback knockback;
     private Rigidbody2D rb;
+    private PlayerAudio paudio;
     public int timesDied = 0;
 
     // Start is called before the first frame update
@@ -18,13 +19,14 @@ public class PlayerDie : MonoBehaviour
         Transform = GetComponent<Transform>();
         knockback = GetComponent<Knockback>();
         rb = GetComponent<Rigidbody2D>();
+        paudio = GetComponentInChildren<PlayerAudio>();
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.layer == LayerMask.NameToLayer("Death"))
         {
-            //sound
+            paudio.PlayRandom();
             timesDied++;
             knockback.percent = 0;
             StartCoroutine(Respawn());

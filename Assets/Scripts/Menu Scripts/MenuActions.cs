@@ -8,6 +8,8 @@ public class MenuActions : MonoBehaviour
 {
     [SerializeField] GameObject controlsScreen;
     [SerializeField] TextMeshProUGUI playerCount;
+    [SerializeField] private AudioSource music;
+    [SerializeField] private AudioSource ready;
     public void IncPlayers() 
     {
         if (GameManager.Instance.numPlayers < 4)
@@ -45,9 +47,19 @@ public class MenuActions : MonoBehaviour
 
     public void LoadGame()
     {
+        music.Stop();
+        ready.Play();
+        StartCoroutine(PlayAndWait());
+    }
+    IEnumerator PlayAndWait()
+    {
+        ready.Play();
+
+        yield return new WaitWhile(() => ready.isPlaying);
+
+        // Code here runs after the sound finishes
         SceneManager.LoadScene(1);
     }
-
     public void LoadResults()
     {
         SceneManager.LoadScene(2);
